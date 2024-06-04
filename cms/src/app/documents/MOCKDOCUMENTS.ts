@@ -6,7 +6,7 @@ export const MOCKDOCUMENTS: any[] = [
     id: "1",
     name: "CIT 425 - Data Warehousing",
     url: "https://rkjdatawarehousing.wordpress.com/",
-    children: [
+    children: [ 
       {
         id: "2",
         name: "Project 1 – The Kimball Method",
