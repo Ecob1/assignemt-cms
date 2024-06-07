@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'demo';
-  selectedFeature: string;
+  // selectedFeature: string;
 
 }

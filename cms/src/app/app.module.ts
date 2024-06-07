@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
@@ -15,6 +16,55 @@ import { MessageItemComponent } from './messages/message-item/message-item.compo
 import { MessageEditComponent } from './messages/message-edit/message-edit.component';
 import { MessageListComponent } from './messages/message-list/message-list.component';
 import { DropdownDirective } from './header/dropdown.directive';
+import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+
+const appRoutes: Routes = [
+  {
+    path: '',
+    redirectTo: '/documents',
+    pathMatch: 'full',
+  },
+  {
+    path: 'documents',
+    component: DocumentsComponent,
+    // children: [
+    //   {
+    //     path: 'new',
+    //     // component: DocumentEditComponent,
+    //   },
+    //   {
+    //     path: ':id',
+    //     component: DocumentDetailComponent,
+    //   },
+    //   {
+    //     path: ':id/edit',
+    //     // component: DocumentEditComponent,
+    //   },
+    // ],
+  },
+  {
+    path: 'contacts',
+    component: ContactsComponent,
+    // children: [
+    //   {
+    //     path: 'new',
+    //     // component: ContactEditComponent,
+    //   },
+    //   {
+    //     path: ':id',
+    //     component: ContactDetailComponent,
+    //   },
+    //   {
+    //     path: ':id/edit',
+    //     // component: ContactEditComponent,
+    //   },
+    // ],
+  },
+  {
+    path: 'messages',
+    component: MessageListComponent,
+  },
+];
 
 @NgModule({
   declarations: [
@@ -31,9 +81,11 @@ import { DropdownDirective } from './header/dropdown.directive';
     MessageItemComponent,
     MessageEditComponent,
     MessageListComponent,
-    DropdownDirective
+    DropdownDirective,
+    DocumentEditComponent
   ],
-  imports: [BrowserModule, FormsModule],
+  imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
+  exports: [RouterModule],
   providers: [],
   bootstrap: [AppComponent],
 })
