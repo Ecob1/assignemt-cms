@@ -27,38 +27,38 @@ const appRoutes: Routes = [
   {
     path: 'documents',
     component: DocumentsComponent,
-    // children: [
-    //   {
-    //     path: 'new',
-    //     // component: DocumentEditComponent,
-    //   },
-    //   {
-    //     path: ':id',
-    //     component: DocumentDetailComponent,
-    //   },
+    children: [
+      {
+        path: 'new',
+        component: DocumentEditComponent,
+      },
+      {
+        path: ':id',
+        component: DocumentDetailComponent,
+      },
     //   {
     //     path: ':id/edit',
     //     // component: DocumentEditComponent,
     //   },
-    // ],
+    ],
   },
   {
     path: 'contacts',
     component: ContactsComponent,
-    // children: [
+    children: [
     //   {
     //     path: 'new',
     //     // component: ContactEditComponent,
     //   },
-    //   {
-    //     path: ':id',
-    //     component: ContactDetailComponent,
-    //   },
+      {
+        path: ':id',
+        component: ContactDetailComponent,
+      },
     //   {
     //     path: ':id/edit',
     //     // component: ContactEditComponent,
     //   },
-    // ],
+    ],
   },
   {
     path: 'messages',
