@@ -7,9 +7,9 @@ import { DocumentService } from '../document.service';
 @Component({
   selector: 'app-document-detail',
   templateUrl: './document-detail.component.html',
-  styleUrl: './document-detail.component.css'
+  styleUrl: './document-detail.component.css',
 })
-export class DocumentDetailComponent implements OnInit  {
+export class DocumentDetailComponent implements OnInit {
   nativeWindow!: Window;
   document!: Document | null;
 
@@ -17,7 +17,7 @@ export class DocumentDetailComponent implements OnInit  {
     private docService: DocumentService,
     private router: Router,
     private route: ActivatedRoute,
-    private winRef: WinRefService,
+    private winRef: WinRefService
   ) {}
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class DocumentDetailComponent implements OnInit  {
 
     this.route.params.subscribe((params: Params) => {
       this.document = this.docService.getDocument(
-        params['id'] as number | string,
+        params['id'] as number | string
       );
     });
   }
