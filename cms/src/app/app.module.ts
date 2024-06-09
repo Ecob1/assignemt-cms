@@ -36,10 +36,10 @@ const appRoutes: Routes = [
         path: ':id',
         component: DocumentDetailComponent,
       },
-    //   {
-    //     path: ':id/edit',
-    //     // component: DocumentEditComponent,
-    //   },
+      {
+        path: ':id/edit',
+        component: DocumentEditComponent,
+      },
     ],
   },
   {
