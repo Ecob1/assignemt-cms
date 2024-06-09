@@ -17,6 +17,7 @@ import { MessageEditComponent } from './messages/message-edit/message-edit.compo
 import { MessageListComponent } from './messages/message-list/message-list.component';
 import { DropdownDirective } from './header/dropdown.directive';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
+import { ContactEditComponent} from './contacts/contact-edit/contact-edit.component'
 
 const appRoutes: Routes = [
   {
@@ -46,18 +47,18 @@ const appRoutes: Routes = [
     path: 'contacts',
     component: ContactsComponent,
     children: [
-    //   {
-    //     path: 'new',
-    //     // component: ContactEditComponent,
-    //   },
+      {
+        path: 'new',
+        component: ContactEditComponent,
+      },
       {
         path: ':id',
         component: ContactDetailComponent,
       },
-    //   {
-    //     path: ':id/edit',
-    //     // component: ContactEditComponent,
-    //   },
+      {
+        path: ':id/edit',
+        component: ContactEditComponent,
+      },
     ],
   },
   {
@@ -82,7 +83,8 @@ const appRoutes: Routes = [
     MessageEditComponent,
     MessageListComponent,
     DropdownDirective,
-    DocumentEditComponent
+    DocumentEditComponent,
+    ContactEditComponent
   ],
   imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
