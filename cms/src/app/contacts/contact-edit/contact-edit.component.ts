@@ -5,6 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './contact-edit.component.html',
   styleUrl: './contact-edit.component.css'
 })
-export class ContactEditComponent {
-
-}
+export class ContactEditComponent {}

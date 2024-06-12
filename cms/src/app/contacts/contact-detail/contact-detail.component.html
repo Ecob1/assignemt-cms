@@ -6,7 +6,7 @@
                 <img class="imgItem" [src]="contact.imgUrl" alt="contact.image">
             </div>
             <div class="col text-right">
-                <button class="btn btn-primary">Edit</button>
+                <a [routerLink]="[':id/edit']" class="btn btn-primary">Edit</a>
                 <button class="btn btn-danger">Delete</button>
             </div>
         </div>
