@@ -11,8 +11,8 @@
   </div>
   <div class="panel-body">
     <app-contact-item
-      *ngFor="let contact of contacts"
-      [contact]="contact"
+      *ngFor="let contact of contacts" dnd-droppable
+      [contact]="contact" [dragEnable]="true" [dragData]="contact" [dorpZones]="contactGroup"
     ></app-contact-item>
   </div>
 </div>
