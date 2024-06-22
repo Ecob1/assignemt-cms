@@ -17,7 +17,8 @@ import { MessageEditComponent } from './messages/message-edit/message-edit.compo
 import { MessageListComponent } from './messages/message-list/message-list.component';
 import { DropdownDirective } from './header/dropdown.directive';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
-import { ContactEditComponent} from './contacts/contact-edit/contact-edit.component'
+import { ContactEditComponent} from './contacts/contact-edit/contact-edit.component';
+import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
 
 const appRoutes: Routes = [
   {
@@ -84,7 +85,8 @@ const appRoutes: Routes = [
     MessageListComponent,
     DropdownDirective,
     DocumentEditComponent,
-    ContactEditComponent
+    ContactEditComponent,
+    ContactsFilterPipe
   ],
   imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
