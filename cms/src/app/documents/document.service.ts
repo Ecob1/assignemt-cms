@@ -1,7 +1,8 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Document } from './document.model';
-import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
+// import { MOCKDOCUMENTS } from './MOCKDOCUMENTS';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -12,14 +13,33 @@ export class DocumentService {
   documentListChangedEvent = new Subject<Document[]>();
 
   // documents: Document[] = [];
-  documents: Document[] = [];
+  private documents: Document[] = [];
   private maxDocumentId!: number;
+  private documentsUrl =
+    'https://wdd430-ec-default-rtdb.firebaseio.com//documents.json';
 
-  constructor() {
-    this.documents = MOCKDOCUMENTS;
+  constructor(private http: HttpClient) {
+    this.maxDocumentId = this.getMaxId(); 
+    // this.documents = MOCKDOCUMENTS;
   }
 
   getDocuments(): Document[] {
+    console.log('Retrieving documents...');
+    this.http.get<Document[]>(this.documentsUrl).subscribe({
+      next: (documents: Document[]) => {
+        this.documents = documents;
+        this.maxDocumentId = this.getMaxId();
+        this.documents.sort((a, b) => {
+          if (+a.id! < +b.id!) return -1;
+          if (+a.id! > +b.id!) return 1;
+          return 0;
+        });
+        this.documentListChangedEvent.next(this.documents.slice() || null);
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error('Uh, oh! We have an error!', error);
+      },
+    });
     return this.documents.slice() || null;
   }
 
@@ -43,12 +63,30 @@ export class DocumentService {
     return maxId;
   }
 
+  storeDocuments() {
+    this.http
+      .put(this.documentsUrl, JSON.stringify(this.documents), {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      })
+      .subscribe(() => {
+        this.documents.sort((a, b) => {
+          if (+a.id! < +b.id!) return -1;
+          if (+a.id! > +b.id!) return 1;
+          return 0;
+        });
+        this.documentListChangedEvent.next(this.documents.slice() || null);
+      });
+  }
+
   addDocument(newDocument: Document) {
     if (newDocument === null || newDocument === undefined) return;
     this.maxDocumentId++;
     newDocument.id = `${this.maxDocumentId}`;
     this.documents.push(newDocument);
-    this.documentListChangedEvent.next(this.documents.slice());
+    this.storeDocuments();
+    // this.documentListChangedEvent.next(this.documents.slice());
   }
 
   updateDocument(original: Document, newDocument: Document) {
@@ -65,6 +103,7 @@ export class DocumentService {
 
     newDocument.id = original.id;
     this.documents[pos] = newDocument;
-    this.documentListChangedEvent.next(this.documents.slice());
+    this.storeDocuments();
+    // this.documentListChangedEvent.next(this.documents.slice());
   }
 }

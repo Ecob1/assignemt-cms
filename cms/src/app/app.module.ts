@@ -19,6 +19,7 @@ import { DropdownDirective } from './header/dropdown.directive';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactEditComponent} from './contacts/contact-edit/contact-edit.component';
 import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
@@ -88,7 +89,7 @@ const appRoutes: Routes = [
     ContactEditComponent,
     ContactsFilterPipe
   ],
-  imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
+  imports: [HttpClientModule, BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
   providers: [],
   bootstrap: [AppComponent],
