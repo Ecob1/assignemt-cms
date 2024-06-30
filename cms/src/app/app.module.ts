@@ -20,6 +20,7 @@ import { DocumentEditComponent } from './documents/document-edit/document-edit.c
 import { ContactEditComponent} from './contacts/contact-edit/contact-edit.component';
 import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
 import { HttpClientModule } from '@angular/common/http';
+import { ServerPipe } from './server.pipe';
 
 const appRoutes: Routes = [
   {
@@ -87,7 +88,8 @@ const appRoutes: Routes = [
     DropdownDirective,
     DocumentEditComponent,
     ContactEditComponent,
-    ContactsFilterPipe
+    ContactsFilterPipe,
+    ServerPipe
   ],
   imports: [HttpClientModule, BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],

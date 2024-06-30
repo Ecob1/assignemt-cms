@@ -31,6 +31,10 @@ export class DocumentListComponent implements OnInit, OnDestroy {
     );
   }
 
+  onSelectedDocument(){
+    
+  }
+
   ngOnDestroy() {
     // Added subscription destroyable.
     this.subscription.unsubscribe();
