@@ -22,6 +22,7 @@
     "bootstrap": "^3.4.1",
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
+    "mongoose": "^8.4.4",
     "morgan": "^1.10.0",
     "rxjs": "^6.6.7",
     "tslib": "^2.3.0",
