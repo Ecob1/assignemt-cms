@@ -14,7 +14,7 @@ export class ContactEditComponent implements OnInit {
   contact: Contact | undefined;
   groupContacts: Contact[] | null = [];
   editMode: boolean = false;
-  id!: string;
+  _id!: string;
 
   constructor(
     private contactService: ContactService,
@@ -24,12 +24,12 @@ export class ContactEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.id = params['id'] as string;
-      if (this.id === undefined || this.id === null) {
+      this._id = params['id'] as string;
+      if (this._id === undefined || this._id === null) {
         this.editMode = false;
         return;
       }
-      this.originalContact = this.contactService.getContact(this.id) as Contact;
+      this.originalContact = this.contactService.getContact(this._id) as Contact;
       if (this.originalContact === undefined || this.originalContact === null) {
         return;
       }
@@ -46,7 +46,7 @@ export class ContactEditComponent implements OnInit {
   onSubmit(form: NgForm) {
     const value = form.value;
     const newContact = new Contact(
-      this.id,
+      
       value.name,
       value.email,
       value.phone,
@@ -73,8 +73,8 @@ export class ContactEditComponent implements OnInit {
 
   isInvalidContact(newContact: Contact) {
     if (!newContact) return true;
-    if (this.contact && newContact.id === this.contact.id) return true;
-    return this.groupContacts!.some((nc) => newContact.id === nc.id);
+    if (this.contact && newContact._id === this.contact.id) return true;
+    return this.groupContacts!.some((nc) => newContact._id === nc._id);
   }
 
   onRemoveItem(index: number) {

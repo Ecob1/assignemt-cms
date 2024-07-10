@@ -1,70 +1,113 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
 import { Contact } from './contact.model';
-import { MOCKCONTACTS } from './MOCKCONTACTS';
+import { Subject } from 'rxjs';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactService {
-  contacts: Contact[] = [];
-  private maxContactId!: number;
-
   contactSelectedEvent = new EventEmitter<Contact>();
-  // contactChangedEvent = new EventEmitter<Contact[]>();
   contactListChangedEvent = new Subject<Contact[]>();
 
-  constructor() {
-    this.contacts = MOCKCONTACTS; // <<< Uncomment me!
-    this.maxContactId = this.getMaxId();
+  private contacts: Contact[] = [];
+  private contactsUrl = '/api/contacts';
+
+  constructor(private http: HttpClient) {}
+
+  getContacts() {
+    this.http
+      .get<{ message: string; contacts: Contact[] }>(this.contactsUrl)
+      .subscribe({
+        next: (response) => {
+          this.contacts = response.contacts;
+          this.storeContacts();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 
-  getContacts(): Contact[] {
-    return this.contacts.slice() || null;
+  getContact(id: string): Contact | null {
+    return this.contacts.find((contact) => contact._id === id) || null;
   }
 
-  getContact(id: number | string): Contact | null {
-    return this.contacts.find((contact) => contact.id === id) || null;
-  }
-
-  deleteContact(contact: Contact | null) {
+  deleteContact(contact: Contact) {
     if (!contact) return;
     const pos: number = this.contacts.indexOf(contact);
     if (pos < 0) return;
-    this.contacts.splice(pos, 1);
-    this.contactListChangedEvent.next(this.contacts.slice());
+    this.http
+      .delete<{ message: string }>(`${this.contactsUrl}/${contact._id}`)
+      .subscribe({
+        next: (response) => {
+          console.log(response.message);
+          this.contacts.splice(pos, 1);
+          this.storeContacts();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 
-  getMaxId(): number {
-    let maxId = 0;
-    this.contacts.forEach((contact) => {
-      if (+contact.id > maxId) maxId = +contact.id;
+  storeContacts() {
+    this.contacts.sort((a, b) => {
+      if (a < b) return -1;
+      if (a > b) return 1;
+      return 0;
     });
-    return maxId;
+    this.contactListChangedEvent.next(this.contacts.slice());
   }
 
   addContact(newContact: Contact) {
-    if (newContact === null || newContact === undefined) return;
-    this.maxContactId++;
-    newContact.id = `${this.maxContactId}`;
-    this.contacts.push(newContact);
-    this.contactListChangedEvent.next(this.contacts.slice());
+    if (!newContact) return;
+    newContact._id = '';
+    this.http
+      .post<{
+        message: string;
+        contact: Contact;
+      }>(this.contactsUrl, newContact, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response.message);
+          this.contacts.push(response.contact);
+          this.storeContacts();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 
   updateContact(original: Contact, newContact: Contact) {
-    if (
-      newContact === null ||
-      newContact === undefined ||
-      original === null ||
-      original === undefined
-    ) {
-      return;
-    }
+    if (!newContact || !original) return;
     const pos = this.contacts.indexOf(original);
     if (pos < 0) return;
 
-    newContact.id = original.id;
-    this.contacts[pos] = newContact;
-    this.contactListChangedEvent.next(this.contacts.slice());
+    newContact._id = original._id;
+
+    this.http
+      .put<{
+        message: string;
+      }>(`${this.contactsUrl}/${original._id}`, newContact, {
+        headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      })
+      .subscribe({
+        next: (response) => {
+          console.log(response.message);
+          this.contacts[pos] = newContact;
+          this.storeContacts();
+        },
+        error: (error: HttpErrorResponse) => {
+          console.error(error);
+        },
+      });
   }
 }

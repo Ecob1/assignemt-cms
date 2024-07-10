@@ -104,9 +104,8 @@ mongoose
       var data = db.collection('messages').find({id:"1"});
 
 data.forEach(element => {
-  element.sender = "Jeff";
- 
+
     console.log(element);
 });
       // db.close();
-    });
+});
