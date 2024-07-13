@@ -72,10 +72,7 @@
           <div class="row" id="groupList" style="min-height: 3rem">
             <div *ngFor="let contact of groupContacts; let i = index">
               <div>
-                <cms-contact-item
-                  class="col-sm-11"
-                  [contact]="contact"
-                ></cms-contact-item>
+                <app-contact-item class="col-sm-11" [contact]="contact"></app-contact-item>
                 <button
                   class="btn btn-danger col-sm-2 deleteButton"
                   (click)="onRemoveItem(i)"
@@ -84,7 +81,7 @@
                 </button>
               </div>
             </div>
-            <span class="dragMsg" *ngIf="groupContacts?.length < 1"
+            <span class="drag_Msg" *ngIf="groupContacts.length < 1"
               >Drag contacts in group here</span
             >
           </div>
